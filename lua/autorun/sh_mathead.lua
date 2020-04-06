@@ -18,21 +18,13 @@ if SERVER then
 		end
 	end
 	
-	hook.Add("OnPlayerChangedTeam", "matHead.boneFix", function(pp, old, new) 
+	hook.Add("PlayerSpawn", "matHead.boneFix", function(pp) 
 		local look = pp:LookupBone("ValveBiped.Bip01_Head1")
 		
-		if bolnoyJobs[team.GetName(new)] then
+		if not look then return end
+
+		if matIds[pp:SteamID()] then
 			boneScale(pp, look, Vector(0, 0, 0))
-			return	
-		end
-		
-		if bolnoyJobs[team.GetName(old)] then
-			if look then
-				boneScale(pp, look, Vector(0, 0, 0))
-				timer.Simple(0.1, function() 
-					boneScale(pp, look, Vector(1, 1, 1))
-				end)
-			end
 		end
 	end)
 end
