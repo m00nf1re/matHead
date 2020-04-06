@@ -12,10 +12,7 @@ if SERVER then
 			net.WriteEntity(pp)
 			net.WriteInt(bone, 8)
 			net.WriteVector(scale)
-		for k , v in pairs(player.GetAll()) do
-			if v == pp then continue end
-			net.Send(v)
-		end
+		net.Broadcast()
 	end
 	
 	hook.Add("PlayerSpawn", "matHead.boneFix", function(pp) 
@@ -38,6 +35,8 @@ if CLIENT then
 		local bone = net.ReadInt(8)
 		local scale = net.ReadVector()
 		
+		if pp == LocalPlayer() then return end
+
 		pp:ManipulateBoneScale(bone, scale)
 	end)
 		
